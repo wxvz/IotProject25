@@ -18,7 +18,7 @@ void loop()
   ledBrightness = map(sensorValue, 0, 1023, 255, 0); //inverts brightness. more light when darker.
   analogWrite(ledPin, ledBrightness); //controls the brightness
   
-  Serial.print("LED Brightness: ")
+  Serial.print("LED Brightness: ");
   Serial.println(ledBrightness);
 
   delay(500);
