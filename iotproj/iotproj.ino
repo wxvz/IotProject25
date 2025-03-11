@@ -21,6 +21,6 @@ void loop()
   Serial.print("LED Brightness: ");
   Serial.println(ledBrightness);
 
-  delay(500);
+  delay(1000);
   
 }
