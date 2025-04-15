@@ -4,7 +4,7 @@
 #include <BridgeSSLClient.h>
 
 const int soundSensor = A0;
-const int buzzer = 5;
+const int ledPin = 5;
 int threshold = 600;
 
 void setup() 
@@ -13,8 +13,8 @@ void setup()
   while (!Serial); // Waits for serial
   Bridge.begin();
   Serial.println("Bridge initialized.");
-  pinMode(buzzer, OUTPUT);
-}
+  pinMode(ledPin, OUTPUT);
+}aa
 
 void loop() 
 {
