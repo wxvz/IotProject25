@@ -5,6 +5,7 @@
 
 const int soundSensor = A0;
 const int ledPin = 5;
+const int buzzerPin = 4;
 int threshold = 600;
 
 void setup() 
@@ -14,12 +15,20 @@ void setup()
   Bridge.begin();
   Serial.println("Bridge initialized.");
   pinMode(ledPin, OUTPUT);
-}aa
+  pinMode(buzzerPin, OUTPUT);
+}
 
 void loop() 
 {
   int soundLevel = analogRead(soundSensor);
   Serial.print("Sound Level: ");
   Serial.println(soundLevel);
-  
+
+  if (soundLevel > threshold) 
+  {
+    Serial.println("🚨 Siren detected!");
+    digitalWrite(led, HIGH);
+    digitalWrite(buzzerPin, HIGH);
+    
+  }
 }
