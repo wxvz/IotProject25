@@ -11,7 +11,9 @@ void setup()
 {
   Serial.begin(9600);
   while (!Serial); // Waits for serial
-  
+  Bridge.begin();
+  Serial.println("Bridge initialized.");
+  pinMode(buzzer, OUTPUT);
 }
 
 void loop() 
