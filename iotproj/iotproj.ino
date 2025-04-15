@@ -18,6 +18,8 @@ void setup()
 
 void loop() 
 {
-  
+  int soundLevel = analogRead(soundSensor);
+  Serial.print("Sound Level: ");
+  Serial.println(soundLevel);
   
 }
