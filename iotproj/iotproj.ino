@@ -7,6 +7,9 @@ const int soundSensor = A0;
 const int ledPin = 5;
 const int buzzerPin = 4;
 int threshold = 600;
+unsigned long emergencyStartTime = 0;  
+unsigned long emergencyDelay = 2000;  
+bool emergencyTriggered = false; 
 
 void setup() 
 {
@@ -26,12 +29,33 @@ void loop()
 
   if (soundLevel > threshold) 
   {
-    Serial.println("Alert! Siren detected!");
-    digitalWrite(ledPin, HIGH);
-    digitalWrite(buzzerPin, HIGH);
+    if (emergencyStartTime == 0) 
+    {
+      emergencyStartTime = millis();  // Captures current time in milliseconds
+      Serial.println("Threshold exceeded, starting timer...");
+    }
+    if (millis() - emergencyStartTime >= emergencyDelay) 
+    {
+      if (!emergencyTriggered) 
+      {
+        emergencyTriggered = true;  // Set emergency to true
+        Serial.println("Emergency Detected! Siren is sustained.");
+        digitalWrite(ledPin, HIGH);  
+        digitalWrite(buzzerPin, HIGH);  
+      }
+    }
+    else 
+    {
+      emergencyStartTime = 0;  // Reset the timer
+      if (emergencyTriggered) 
+      {
+        emergencyTriggered = false;  // Reset emergency flag
+        Serial.println("Emergency cleared.");
+        digitalWrite(ledPin, LOW);  
+        digitalWrite(buzzerPin, LOW);  
+      }
+    }  
   }
-  
-}
 
 void getWeather() 
 {
@@ -54,4 +78,5 @@ void getWeather()
     weatherData += c;
     
   }
+  client.stop();
 }
