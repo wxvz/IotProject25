@@ -26,9 +26,23 @@ void loop()
 
   if (soundLevel > threshold) 
   {
-    Serial.println("🚨 Siren detected!");
+    Serial.println(Alert! Siren detected!");
     digitalWrite(led, HIGH);
     digitalWrite(buzzerPin, HIGH);
-    
   }
+}
+
+void getWeather() 
+{
+  BridgeSSLClient sslClient;
+  HttpClient client(sslClient);
+
+  String host = "api.openweathermap.org";
+  String apiKey = "efe02b156f1fe98a7b88d2547444728a";  
+  String city = "Sligo,IE";
+  String url = "/data/2.5/weather?q=" + city + "&appid=" + apiKey + "&units=metric";
+
+  client.get(host, 443, url);
+
+  Serial.println("Fetching weather data");
 }
