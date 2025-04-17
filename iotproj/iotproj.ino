@@ -40,7 +40,12 @@ void loop()
     
     if (millis() - emergencyStartTime >= emergencyDelay) 
     {
-      if (!emergencyTriggered) 
+      unsigned long timeElapsed = millis() - emergencyStartTime;
+      Serial.print("Waiting... ");
+      Serial.print(timeElapsed);
+      Serial.println(" ms so far.");
+
+      if (timeElapsed >= emergencyDelay && !emergencyTriggered) 
       {
         emergencyTriggered = true;  // Set emergency to true
         Serial.println("Emergency Detected! Siren is sustained.");
@@ -58,7 +63,12 @@ void loop()
   }
   else 
   {
+    if (emergencyStartTime != 0) 
+    {
+      Serial.println("Sound dropped below threshold. Resetting timer.");
+    } 
     emergencyStartTime = 0;  // Reset the timer
+    
     if (emergencyTriggered) 
     {
       emergencyTriggered = false;  // Reset emergency condition
