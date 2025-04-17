@@ -2,12 +2,11 @@
 #include <Bridge.h>
 #include <HttpClient.h>
 
-
-
+const int sampleCount = 100;
+int noiseBaseline = 0;
 const int soundSensor = A0;
 const int ledPin = 5;
 const int buzzerPin = 4;
-int threshold = 600;
 unsigned long emergencyStartTime = 0;  
 unsigned long emergencyDelay = 2000;  
 bool emergencyTriggered = false;
@@ -25,6 +24,7 @@ void setup()
 
 void loop() 
 {
+  int threshold = calculatingBackgroundNoise();
   int soundLevel = analogRead(soundSensor);
   Serial.print("Sound Level: ");
   Serial.println(soundLevel);
@@ -75,6 +75,7 @@ void loop()
       Serial.println("Emergency cleared.");
       digitalWrite(ledPin, LOW);  
       digitalWrite(buzzerPin, LOW);  
+      Serial.println("Emergency cleared due to sound drop.");
     }
   } 
 }
@@ -114,4 +115,24 @@ void getWeather()
   weatherDescription = doc["weather"][0]["description"].as<String>();  // e.g."clear sky"
   Serial.print("Weather Description: ");
   Serial.println(weatherDescription);
+}
+
+int calculatingBackgroundNoise() 
+{
+  const int sampleCount = 100;
+  long total = 0;
+  
+  for (int i = 0; i < sampleCount; i++) 
+  {
+    total += analogRead(soundSensor);
+    delay(5);
+  }
+
+  int noiseBaseline = total / sampleCount;
+  int calibratedThreshold = noiseBaseline + 100; 
+
+  Serial.print("Current Threshold: ");
+  Serial.println(calibratedThreshold);
+
+  return calibratedThreshold;
 }
