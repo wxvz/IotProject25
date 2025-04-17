@@ -44,8 +44,14 @@ void getWeather()
   boolean isReading = false;
   String weatherData = "";
 
-  client.get(host, 80, url);
+  String fullUrl = "http://" + host + url;
+  client.get(fullUrl.c_str());
   Serial.println("Fetching weather data");
 
-  
+  while (client.available()) 
+  {
+    char c = client.read();
+    weatherData += c;
+    
+  }
 }
