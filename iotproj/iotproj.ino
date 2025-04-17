@@ -1,3 +1,4 @@
+#include <ArduinoJson.h>
 #include <Bridge.h>
 #include <HttpClient.h>
 #include <Process.h>
@@ -9,7 +10,8 @@ const int buzzerPin = 4;
 int threshold = 600;
 unsigned long emergencyStartTime = 0;  
 unsigned long emergencyDelay = 2000;  
-bool emergencyTriggered = false; 
+bool emergencyTriggered = false;
+String weatherDescription = ""; 
 
 void setup() 
 {
@@ -41,7 +43,10 @@ void loop()
         emergencyTriggered = true;  // Set emergency to true
         Serial.println("Emergency Detected! Siren is sustained.");
         digitalWrite(ledPin, HIGH);  
-        digitalWrite(buzzerPin, HIGH);  
+        digitalWrite(buzzerPin, HIGH);
+        getWeather();  
+        Serial.print("Weather Description: ");
+        Serial.println(weatherDescription);  
       }
     }
     else 
@@ -49,13 +54,14 @@ void loop()
       emergencyStartTime = 0;  // Reset the timer
       if (emergencyTriggered) 
       {
-        emergencyTriggered = false;  // Reset emergency flag
+        emergencyTriggered = false;  // Reset emergency condition
         Serial.println("Emergency cleared.");
         digitalWrite(ledPin, LOW);  
         digitalWrite(buzzerPin, LOW);  
       }
     }  
   }
+}
 
 void getWeather() 
 {
@@ -76,7 +82,20 @@ void getWeather()
   {
     char c = client.read();
     weatherData += c;
-    
+    Serial.print(c); // For testing 
   }
-  client.stop();
+  
+  const size_t capacity = 1024;
+  StaticJsonDocument<1024> doc;
+  DeserializationError error = deserializeJson(doc, weatherData);
+
+  if (error) 
+  {
+    Serial.print("Failed to parse JSON: ");
+    Serial.println(error.f_str());
+    return;  // Exit if there is a problem parsing
+  }
+  weatherDescription = doc["weather"][0]["description"].as<String>();  // e.g."clear sky"
+  Serial.print("Weather Description: ");
+  Serial.println(weatherDescription);
 }
