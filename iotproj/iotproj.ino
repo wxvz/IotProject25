@@ -31,11 +31,13 @@ void loop()
 
   if (soundLevel > threshold) 
   {
+    
     if (emergencyStartTime == 0) 
     {
       emergencyStartTime = millis();  // Captures current time in milliseconds
       Serial.println("Threshold exceeded, starting timer...");
     }
+    
     if (millis() - emergencyStartTime >= emergencyDelay) 
     {
       if (!emergencyTriggered) 
@@ -51,16 +53,20 @@ void loop()
     }
     else 
     {
-      emergencyStartTime = 0;  // Reset the timer
-      if (emergencyTriggered) 
-      {
-        emergencyTriggered = false;  // Reset emergency condition
-        Serial.println("Emergency cleared.");
-        digitalWrite(ledPin, LOW);  
-        digitalWrite(buzzerPin, LOW);  
-      }
-    }  
+      Serial.println("Waiting... sustained sound not long enough.");
+    } 
   }
+  else 
+  {
+    emergencyStartTime = 0;  // Reset the timer
+    if (emergencyTriggered) 
+    {
+      emergencyTriggered = false;  // Reset emergency condition
+      Serial.println("Emergency cleared.");
+      digitalWrite(ledPin, LOW);  
+      digitalWrite(buzzerPin, LOW);  
+    }
+  } 
 }
 
 void getWeather() 
