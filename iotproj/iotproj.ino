@@ -112,7 +112,7 @@ void getWeather()
     Serial.println(error.f_str());
     return;  // Exit if there is a problem parsing
   }
-  weatherDescription = doc["weather"][0]["description"].as<String>();  // e.g."clear sky"
+  weatherDescription = doc["weather"][0]["description"].as<String>();  
   Serial.print("Weather Description: ");
   Serial.println(weatherDescription);
 }
