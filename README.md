@@ -5,9 +5,13 @@ Description
 This project detects high sound levels using an analog sound sensor, triggers an emergency alarm (LED and buzzer) if the sound exceeds a threshold for a certain period, and fetches weather data from OpenWeatherMap. The weather description (such as "clear sky", "cloudy", etc.) is then displayed on the serial monitor.
 
 Features:
+
 Sound detection with threshold-based triggering.
+
 Emergency alert with a buzzer and LED.
+
 Fetching weather data from OpenWeatherMap based on a city (Sligo, IE in this case).
+
 Adjustable sound threshold and delay for emergency trigger.
 
 Components Needed
