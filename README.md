@@ -21,10 +21,15 @@ Adjustment of sound threshold and trigger duration for personalization.
 **Parts Needed**
 
 1x Arduino board (e.g., Arduino Yun)
+
 1x Analog sound sensor
+
 1x Buzzer
+
 1x LED
+
 1x Base shield
+
 Internet access (through Bridge or Ethernet Shield)
 
 
