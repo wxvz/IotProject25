@@ -32,10 +32,13 @@ Adjustment of sound threshold and trigger duration for personalization.
 
 Internet access (through Bridge or Ethernet Shield)
 
+**Connections**
 
 Sound Sensor: Analog output to A0.
-LED: Pin 5,
-Buzzer: Pin 4, 
+
+LED: Pin 5.
+
+Buzzer: Pin 4.
 
 **Code Explanation**
 
