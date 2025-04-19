@@ -1,42 +1,63 @@
-Sound Level Detection with Emergency Alert and Weather Fetching
+Emergency Service Detection with Weather and Traffic Awareness.
 
 Description
 
-This project detects high sound levels using an analog sound sensor, triggers an emergency alarm (LED and buzzer) if the sound exceeds a threshold for a certain period, and fetches weather data from OpenWeatherMap. The weather description (such as "clear sky", "cloudy", etc.) is then displayed on the serial monitor.
+This project detects loud levels of sound—such as from ambulance sirens or other emergency vehicles—via an analog sound sensor. Upon detection of a sound level exceeding a preconfigured threshold over an extended time frame, the system triggers an emergency alert via a buzzer and LED. In parallel, it pulls current weather data from OpenWeatherMap and can further be enhanced to encompass traffic awareness to help decide whether the detected siren can be delayed or impeded by conditions.
 
-Features:
+Features
 
-Sound detection with threshold-based triggering.
+Real-time sound detection triggering based on threshold.
 
-Emergency alert with a buzzer and LED.
+Emergency alarm system comprising buzzer and LED indicator.
 
-Fetching weather data from OpenWeatherMap based on a city (Sligo, IE in this case).
+Live weather fetch from OpenWeatherMap for a specified city (e.g., Sligo, IE).
 
-Adjustable sound threshold and delay for emergency trigger.
+Potential traffic extension
 
-Components Needed
+information: weather and traffic information inform understanding of environment in relation to emergency sounds.
+
+Adjustment of sound threshold and trigger duration for personalization.
+
+Parts Needed
 
 Arduino board (e.g., Arduino Yun)
-Sound sensor
+Analog sound sensor
 Buzzer
 LED
 Base shield
-Internet connection for weather fetching (requires bridge or Ethernet shield)
+Internet access (through Bridge or Ethernet Shield)
 
 
-Sound Sensor: Connect the analog output of the sound sensor to A0 on the Arduino.
-
-LED: Connect the positive leg (longer leg) to Pin 5 and the negative leg to ground.
-
-Buzzer: Connect the positive leg to Pin 4 and the negative leg to ground.
+Sound Sensor: Analog output to A0.
+LED: Pin 5,
+Buzzer: Pin 4, 
 
 Code Explanation
 
-Main Logic
-Sound Detection: The Arduino continuously checks the sound level using an analog read from the sound sensor. If the sound exceeds the threshold for a set duration (2 seconds), an emergency is triggered.
+Detection of sound
 
-Emergency Response: When the threshold is crossed, the buzzer and LED are turned on to signal an emergency. Weather data is then fetched.
+Reads analog values continuously from the sound sensor.
 
-Weather Fetching: The Arduino sends a request to the OpenWeatherMap API and fetches current weather data, which is then displayed on the serial monitor.
+If crossing the threshold is exceeded for more than 2 seconds (configurable), an emergency is activated.
 
-Emergency Reset: If the sound level drops below the threshold or the emergency timer is not exceeded, the alarm is cleared, and the system waits for further noise.
+Emergency Trigger
+
+Activates a buzzer and LED to signal the occurrence.
+
+Gets weather conditions to analyze external conditions.
+
+Weather Integration
+
+Connects to OpenWeatherMap API to retrieve live weather.
+
+Displays the weather description (e.g., "clear sky", "rain") via serial monitor.
+
+Optional Traffic Data (Extension Idea)
+
+Add a traffic API to determine if detected sirens correlate with congested routes.
+
+Beneficial in city areas where response time in case of emergencies may be affected.
+
+Reset Condition
+
+When the sound falls below the threshold or fails to meet the duration, the system resets.
