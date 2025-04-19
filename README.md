@@ -6,11 +6,11 @@ This project detects loud levels of sound—such as from ambulance sirens or oth
 
 Features
 
-Real-time sound detection triggering based on threshold.
+1. Real-time sound detection triggering based on threshold.
 
-Emergency alarm system comprising buzzer and LED indicator.
+2. Emergency alarm system comprising buzzer and LED indicator.
 
-Live weather fetch from OpenWeatherMap for a specified city (e.g., Sligo, IE).
+3. Live weather fetch from OpenWeatherMap for a specified city (e.g., Sligo, IE).
 
 Potential traffic extension
 
@@ -20,11 +20,11 @@ Adjustment of sound threshold and trigger duration for personalization.
 
 Parts Needed
 
-Arduino board (e.g., Arduino Yun)
-Analog sound sensor
-Buzzer
-LED
-Base shield
+1x Arduino board (e.g., Arduino Yun)
+1x Analog sound sensor
+1x Buzzer
+1x LED
+1x Base shield
 Internet access (through Bridge or Ethernet Shield)
 
 
@@ -35,27 +35,17 @@ Buzzer: Pin 4,
 Code Explanation
 
 Detection of sound
-
 Reads analog values continuously from the sound sensor.
-
 If crossing the threshold is exceeded for more than 2 seconds (configurable), an emergency is activated.
-
 Emergency Trigger
-
 Activates a buzzer and LED to signal the occurrence.
-
 Gets weather conditions to analyze external conditions.
-
 Weather Integration
-
 Connects to OpenWeatherMap API to retrieve live weather.
-
 Displays the weather description (e.g., "clear sky", "rain") via serial monitor.
 
 Optional Traffic Data (Extension Idea)
-
 Add a traffic API to determine if detected sirens correlate with congested routes.
-
 Beneficial in city areas where response time in case of emergencies may be affected.
 
 Reset Condition
