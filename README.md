@@ -1,10 +1,10 @@
-Emergency Service Detection with Weather and Traffic Awareness.
+**Emergency Service Detection with Weather and Traffic Awareness.**
 
-Description
+**Description**
 
 This project detects loud levels of sound—such as from ambulance sirens or other emergency vehicles—via an analog sound sensor. Upon detection of a sound level exceeding a preconfigured threshold over an extended time frame, the system triggers an emergency alert via a buzzer and LED. In parallel, it pulls current weather data from OpenWeatherMap and can further be enhanced to encompass traffic awareness to help decide whether the detected siren can be delayed or impeded by conditions.
 
-Features
+**Features**
 
 1. Real-time sound detection triggering based on threshold.
 
@@ -18,7 +18,7 @@ information: weather and traffic information inform understanding of environment
 
 Adjustment of sound threshold and trigger duration for personalization.
 
-Parts Needed
+**Parts Needed**
 
 1x Arduino board (e.g., Arduino Yun)
 1x Analog sound sensor
@@ -32,7 +32,7 @@ Sound Sensor: Analog output to A0.
 LED: Pin 5,
 Buzzer: Pin 4, 
 
-Code Explanation
+**Code Explanation**
 
 Detection of sound
 Reads analog values continuously from the sound sensor.
@@ -48,6 +48,6 @@ Optional Traffic Data (Extension Idea)
 Add a traffic API to determine if detected sirens correlate with congested routes.
 Beneficial in city areas where response time in case of emergencies may be affected.
 
-Reset Condition
+**Reset Condition**
 
 When the sound falls below the threshold or fails to meet the duration, the system resets.
