@@ -125,7 +125,7 @@ int calculatingBackgroundNoise()
   for (int i = 0; i < sampleCount; i++) 
   {
     total += analogRead(soundSensor);
-    delay(5);
+    delay(10);
   }
 
   int noiseBaseline = total / sampleCount;
