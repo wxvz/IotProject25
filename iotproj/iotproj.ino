@@ -8,7 +8,7 @@ const int soundSensor = A0;
 const int ledPin = 5;
 const int buzzerPin = 4;
 unsigned long emergencyStartTime = 0;  
-unsigned long emergencyDelay = 2000;  
+unsigned long emergencyDelay = 800;  
 bool emergencyTriggered = false;
 String weatherDescription = ""; 
 
