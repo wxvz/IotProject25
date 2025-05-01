@@ -8,13 +8,14 @@ const int soundSensor = A0;
 const int ledPin = 5;
 const int buzzerPin = 4;
 unsigned long emergencyStartTime = 0;  
-unsigned long emergencyDelay = 800;  
+unsigned long emergencyDelay = 1300;  
 bool emergencyTriggered = false;
 String weatherDescription = ""; 
 
 void setup() 
 {
   Serial.begin(9600);
+  Serial.println("Starting");
   while (!Serial); // Waits for serial
   Bridge.begin();
   Serial.println("Bridge initialized.");
@@ -83,26 +84,32 @@ void loop()
 void getWeather() 
 {
   HttpClient client;
-
   String host = "api.openweathermap.org";
-  String apiKey = "efe02b156f1fe98a7b88d2547444728a";  
-  String city = "Sligo,IE";
+  String apiKey = "b9e09a2989cabb7220b2a80a07b2a320";  
+  String city = "Sligo,IE";  // City for weather
   String url = "/data/2.5/weather?q=" + city + "&appid=" + apiKey + "&units=metric";
-  boolean isReading = false;
-  String weatherData = "";
-
   String fullUrl = "http://" + host + url;
-  client.get(fullUrl.c_str());
-  Serial.println("Fetching weather data");
 
+  Serial.println("Fetching weather data...");
+
+  int statusCode = client.get(fullUrl.c_str());
+
+  if (statusCode != 200) 
+  {
+    Serial.print("HTTP request failed. Status code: ");
+    Serial.println(statusCode);
+    return;
+  }
+
+  String weatherData = "";
   while (client.available()) 
   {
     char c = client.read();
     weatherData += c;
-    Serial.print(c); // For testing 
+    
   }
-  
-  const size_t capacity = 1024;
+
+  // Parse the received JSON data
   StaticJsonDocument<1024> doc;
   DeserializationError error = deserializeJson(doc, weatherData);
 
@@ -110,11 +117,16 @@ void getWeather()
   {
     Serial.print("Failed to parse JSON: ");
     Serial.println(error.f_str());
-    return;  // Exit if there is a problem parsing
+    return;
   }
-  weatherDescription = doc["weather"][0]["description"].as<String>();  
+
+  // Extract weather description from the JSON response
+  weatherDescription = doc["weather"][0]["description"].as<String>();
   Serial.print("Weather Description: ");
   Serial.println(weatherDescription);
+
+  // Display the weather description on the serial monitor
+  Serial.println("Weather fetched during emergency.");
 }
 
 int calculatingBackgroundNoise() 
@@ -136,3 +148,4 @@ int calculatingBackgroundNoise()
 
   return calibratedThreshold;
 }
+
