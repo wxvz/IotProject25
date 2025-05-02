@@ -16,8 +16,8 @@ String weatherDescription = "";
 void setup() 
 {
   Serial.begin(9600);
-  Serial.println("Starting");
   while (!Serial); // Waits for serial
+  Serial.println("Starting");
   Bridge.begin();
   Serial.println("Bridge initialized.");
   pinMode(ledPin, OUTPUT);
@@ -54,9 +54,10 @@ void loop()
         digitalWrite(ledPin, HIGH);  
         digitalWrite(buzzerPin, HIGH);
         getWeather();  
-        sendSMS();
         Serial.print("Weather Description: ");
-        Serial.println(weatherDescription);  
+        Serial.println(weatherDescription); 
+        sendSMS();
+        delay(300000);
       }
     }
     else 
