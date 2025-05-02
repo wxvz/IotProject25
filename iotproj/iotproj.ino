@@ -1,6 +1,7 @@
 #include <ArduinoJson.h>
 #include <Bridge.h>
 #include <HttpClient.h>
+#include <Process.h>
 
 const int sampleCount = 100;
 int noiseBaseline = 0;
@@ -53,6 +54,7 @@ void loop()
         digitalWrite(ledPin, HIGH);  
         digitalWrite(buzzerPin, HIGH);
         getWeather();  
+        sendSMS();
         Serial.print("Weather Description: ");
         Serial.println(weatherDescription);  
       }
@@ -86,8 +88,9 @@ void getWeather()
   HttpClient client;
   String host = "api.openweathermap.org";
   String apiKey = "b9e09a2989cabb7220b2a80a07b2a320";  
-  String city = "Sligo,IE";  // City for weather
-  String url = "/data/2.5/weather?q=" + city + "&appid=" + apiKey + "&units=metric";
+  String lat = "54.26969";  
+  String lon = "-8.46943";
+  String url = "/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey + "&units=metric";
   String fullUrl = "http://" + host + url;
 
   Serial.println("Fetching weather data...");
@@ -110,7 +113,7 @@ void getWeather()
   }
 
   // Parse the received JSON data
-  StaticJsonDocument<1024> doc;
+  StaticJsonDocument<4096> doc;
   DeserializationError error = deserializeJson(doc, weatherData);
 
   if (error) 
@@ -121,7 +124,7 @@ void getWeather()
   }
 
   // Extract weather description from the JSON response
-  weatherDescription = doc["weather"][0]["description"].as<String>();
+  weatherDescription = doc["list"][0]["weather"][0]["description"].as<String>();
   Serial.print("Weather Description: ");
   Serial.println(weatherDescription);
 
@@ -140,7 +143,7 @@ int calculatingBackgroundNoise()
     delay(10);
   }
 
-  int noiseBaseline = total / sampleCount;
+  noiseBaseline = total / sampleCount;
   int calibratedThreshold = noiseBaseline + 100; 
 
   Serial.print("Current Threshold: ");
@@ -149,3 +152,26 @@ int calculatingBackgroundNoise()
   return calibratedThreshold;
 }
 
+void sendSMS() 
+{
+  String accountSID = "AC0ce3081a8990b9984552ecbb0ea9a2e4";  
+  String authToken = "eb72b60baed788ef633ec3ce72965af8";  
+  
+  // Construct the curl command to send the SMS
+  String cmd = "curl -X POST 'https://api.twilio.com/2010-04-01/Accounts/" + accountSID + "/Messages.json' "
+             "--data-urlencode 'To=+353857719256' "
+             "--data-urlencode 'From=+13512004533' "
+             "--data-urlencode 'Body=EMERGENCY VEHICLE APPROACHING!! MAKE WAY.' "
+             "-u " + accountSID + ":" + authToken;
+                  
+  Serial.println("Sending SMS...");
+  
+  Process p;
+  p.runShellCommand(cmd);  // Execute the curl command
+  
+  while (p.running());  // Wait for the process to finish
+  while (p.available()) {
+    char c = p.read();  
+    Serial.print(c);
+  }
+}
