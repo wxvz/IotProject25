@@ -51,6 +51,7 @@ Gets weather conditions to analyze external conditions.
 Weather Integration
 Connects to OpenWeatherMap API to retrieve live weather.
 Displays the weather description (e.g., "clear sky", "rain") via serial monitor.
+Twilio API sends a text message to phone of emergency vehicle approaching
 
 Optional Traffic Data (Extension Idea)
 Add a traffic API to determine if detected sirens correlate with congested routes.
